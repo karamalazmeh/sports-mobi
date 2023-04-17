@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--Main Fragment - List of Asteroids-->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.karamalazmeh.sportsmobi.view.main.MainViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_background">
+
+        <FrameLayout
+            android:id="@+id/activity_main_image_of_the_day_layout"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:text="Refresh"
+                android:onClick="@{() -> viewModel.refreshResults()}"/>
+
+        </FrameLayout>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/asteroid_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:spanCount="1"
+            listData="@{viewModel.resultsList}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_main_image_of_the_day_layout"
+            tools:listitem="@layout/list_item"/>
+
+        <ProgressBar
+            android:id="@+id/status_loading_wheel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:nasaApiStatus="@{viewModel.status}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

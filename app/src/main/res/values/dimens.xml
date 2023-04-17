@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_s">8dp</dimen>
+    <dimen name="margin_m">16dp</dimen>
+    <dimen name="margin_l">24dp</dimen>
+    <dimen name="icon_size">64dp</dimen>
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="triple_margin">48dp</dimen>
+</resources>
