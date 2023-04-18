@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_detail">
 
         <argument
-            android:name="selectedAsteroid"
+            android:name="selectedEvent"
             app:argType="com.karamalazmeh.sportsmobi.model.entity.SportEvent"/>
     </fragment>
 

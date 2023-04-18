@@ -16,7 +16,7 @@ class DetailFragment : Fragment() {
         val binding = FragmentDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        val sportEvent = DetailFragmentArgs.fromBundle(arguments!!).selectedAsteroid
+        val sportEvent = DetailFragmentArgs.fromBundle(arguments!!).selectedEvent
 
         binding.sportEvent = sportEvent
 

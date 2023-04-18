@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.karamalazmeh.sportsmobi.model.entity.SportEvent
 import com.karamalazmeh.sportsmobi.model.database.SportsDatabase
+import com.karamalazmeh.sportsmobi.model.entity.Team
 import com.karamalazmeh.sportsmobi.model.network.repository.ResultsRepository
 import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.ResultsApiFilter
 import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.TheSportsDbApiStatus
@@ -28,8 +29,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         get() = _properties
 
 
-
-
     // Get database and refresh repository
 
     private val database = SportsDatabase.getInstance(application)
@@ -39,7 +38,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val resultsRepository = ResultsRepository(database)
 
     val resultsList : LiveData<List<SportEvent>>
-    get() = resultsRepository.results
+        get() = resultsRepository.results
+
+
+    val teamsEntries : LiveData<List<String>> = Transformations.map(resultsRepository.teams) { teams ->
+        teams.map { team -> team.name }
+    }
+
+    // The internal MutableLiveData String that stores the status of the most recent request
+    private val _selectedTeam = MutableLiveData<Team>()
+
+    // The external immutable LiveData for the request status String
+    val selectedTeam: LiveData<Team>
+        get() = _selectedTeam
 
     init{
         viewModelScope.launch {
@@ -47,9 +58,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun refreshLeaguesAndSports() {
+        viewModelScope.launch {
+            resultsRepository.refreshLeaguesAndSports()
+        }
+    }
+
     fun refreshResults() {
         viewModelScope.launch {
-            resultsRepository.refreshResults()
+            _selectedTeam.value?.let { resultsRepository.refreshResults(it) }
         }
     }
 
@@ -70,6 +87,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun updateFilter(filter: ResultsApiFilter) {
         resultsRepository.filterResults(filter)
     }
+
+    fun updateSelectedTeam(position: Int){
+        _selectedTeam.value = resultsRepository.teams.value?.get(position)
+    }
+
 
 
 }

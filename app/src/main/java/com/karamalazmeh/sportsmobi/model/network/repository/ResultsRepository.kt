@@ -3,11 +3,11 @@ package com.karamalazmeh.sportsmobi.model.network.repository
 import androidx.lifecycle.*
 import com.karamalazmeh.sportsmobi.model.entity.SportEvent
 import com.karamalazmeh.sportsmobi.model.database.SportsDatabase
+import com.karamalazmeh.sportsmobi.model.entity.League
+import com.karamalazmeh.sportsmobi.model.entity.Team
 import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.ResultsApiFilter
 import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.TheSportsDbApi
 import kotlinx.coroutines.*
-import okhttp3.ResponseBody
-import retrofit2.await
 import timber.log.Timber
 
 
@@ -20,19 +20,40 @@ class ResultsRepository (private val sportsDatabase: SportsDatabase)  {
         MutableLiveData(listOf<SportEvent>())
     }
 
+    private var _teams = MutableLiveData(listOf<Team>())
+
+
+    val teams : LiveData<List<Team>>
+    get() = _teams
+
+    private var _leagues = MutableLiveData(listOf<League>())
+
+
+    val leagues : LiveData<List<League>>
+        get() = _leagues
 
     @OptIn(DelicateCoroutinesApi::class)
-    suspend fun refreshResults() {
-
-        var teamId = 133664
-
-        var sportEvents: List<SportEvent>
+    suspend fun refreshLeaguesAndSports() {
         GlobalScope.launch(Dispatchers.IO) {
-            val results = TheSportsDbApi.retrofitService.getTeams()
-            Timber.i(results.toString())
+            _teams.postValue(TheSportsDbApi.retrofitService.getTeams().teams)
+            _leagues.postValue(TheSportsDbApi.retrofitService.getLeagues().leagues)
 
         }
     }
+
+
+    @OptIn(DelicateCoroutinesApi::class)
+    suspend fun refreshResults(selectedTeam: Team) {
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val eventResults = TheSportsDbApi.retrofitService.getEvents(selectedTeam.id).results
+            Timber.i(eventResults.toString())
+
+        }
+    }
+
+
+
     fun filterResults(filter: ResultsApiFilter){
         _filter.value = filter
     }

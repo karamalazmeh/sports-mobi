@@ -1,14 +1,13 @@
 package com.karamalazmeh.sportsmobi.view.util
 
 import android.view.View
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.karamalazmeh.sportsmobi.R
 import com.karamalazmeh.sportsmobi.model.entity.SportEvent
 import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.TheSportsDbApiStatus
+import com.karamalazmeh.sportsmobi.view.main.MainViewModel
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Int) {
@@ -70,4 +69,13 @@ fun bindStatus(statusImageView: ProgressBar, status: TheSportsDbApiStatus?) {
         }
         else -> {}
     }
+}
+
+@BindingAdapter("entries")
+fun bindSpinnerAdapter(spinner: Spinner, entries: List<String>) {
+    val adapter = ArrayAdapter(spinner.context, android.R.layout.simple_spinner_item, entries)
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+    spinner.adapter = adapter
+
+
 }

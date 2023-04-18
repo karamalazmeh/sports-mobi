@@ -1,7 +1,7 @@
 package com.karamalazmeh.sportsmobi.model.network.thesportsdbapi
 
-import com.karamalazmeh.sportsmobi.model.entity.SportEvent
-import com.karamalazmeh.sportsmobi.model.entity.Team
+import com.karamalazmeh.sportsmobi.model.entity.LeagueResponse
+import com.karamalazmeh.sportsmobi.model.entity.SportEventResponse
 import com.karamalazmeh.sportsmobi.model.entity.TeamResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -12,7 +12,7 @@ interface SportsApiService{
 
 
     @GET("all_leagues.php")
-    suspend fun getLeagues() : Call<ResponseBody>
+    suspend fun getLeagues() : LeagueResponse
 
     @GET("search_all_teams.php")
     suspend fun getTeams(
@@ -24,5 +24,5 @@ interface SportsApiService{
     suspend fun getEvents(
         @Query("id")
         team: Int,
-    ) : List<ResponseBody>
+    ) : SportEventResponse
 }
