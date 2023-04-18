@@ -16,9 +16,9 @@ class ResultsRepository (private val sportsDatabase: SportsDatabase)  {
     private val _filter = MutableLiveData(ResultsApiFilter.SHOW_WEEK)
 
 
-    val results: LiveData<List<SportEvent>> = Transformations.switchMap(_filter) { filter ->
-        MutableLiveData(listOf<SportEvent>())
-    }
+//    val results: LiveData<List<SportEvent>> = Transformations.switchMap(_filter) { filter ->
+//        MutableLiveData(listOf<SportEvent>())
+//    }
 
     private var _teams = MutableLiveData(listOf<Team>())
 
@@ -32,9 +32,14 @@ class ResultsRepository (private val sportsDatabase: SportsDatabase)  {
     val leagues : LiveData<List<League>>
         get() = _leagues
 
-    @OptIn(DelicateCoroutinesApi::class)
+    private var _results = MutableLiveData(listOf<SportEvent>())
+
+
+    val results : LiveData<List<SportEvent>>
+        get() = _results
+
     suspend fun refreshLeaguesAndSports() {
-        GlobalScope.launch(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             _teams.postValue(TheSportsDbApi.retrofitService.getTeams().teams)
             _leagues.postValue(TheSportsDbApi.retrofitService.getLeagues().leagues)
 
@@ -45,10 +50,9 @@ class ResultsRepository (private val sportsDatabase: SportsDatabase)  {
     @OptIn(DelicateCoroutinesApi::class)
     suspend fun refreshResults(selectedTeam: Team) {
 
-        GlobalScope.launch(Dispatchers.IO) {
-            val eventResults = TheSportsDbApi.retrofitService.getEvents(selectedTeam.id).results
-            Timber.i(eventResults.toString())
-
+        withContext(Dispatchers.IO) {
+            _results.postValue(TheSportsDbApi.retrofitService.getEvents(selectedTeam.id).results)
+            Timber.i(results.toString())
         }
     }
 

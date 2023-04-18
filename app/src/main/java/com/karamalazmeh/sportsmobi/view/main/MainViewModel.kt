@@ -75,7 +75,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val navigateToSelectedProperty: LiveData<SportEvent>
         get() = _navigateToSelectedSportEvent
 
-    fun displayPropertyDetails(sportEvent: SportEvent) {
+    fun displayEventResultsDetails(sportEvent: SportEvent) {
         _navigateToSelectedSportEvent.value = sportEvent
     }
 

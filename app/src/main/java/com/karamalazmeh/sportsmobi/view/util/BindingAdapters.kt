@@ -71,6 +71,7 @@ fun bindStatus(statusImageView: ProgressBar, status: TheSportsDbApiStatus?) {
     }
 }
 
+/*
 @BindingAdapter("entries")
 fun bindSpinnerAdapter(spinner: Spinner, entries: List<String>) {
     val adapter = ArrayAdapter(spinner.context, android.R.layout.simple_spinner_item, entries)
@@ -78,4 +79,4 @@ fun bindSpinnerAdapter(spinner: Spinner, entries: List<String>) {
     spinner.adapter = adapter
 
 
-}
+}*/
