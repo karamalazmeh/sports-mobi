@@ -23,4 +23,5 @@ data class SportEvent(
     @Json(name = "dateEvent") val dateEvent: String,
     @Json(name = "strVenue") val venue: String,
     @Json(name = "strCountry") val country: String,
+    @Json(name = "strSquare") val eventPictureUrl: String,
 ) : Parcelable

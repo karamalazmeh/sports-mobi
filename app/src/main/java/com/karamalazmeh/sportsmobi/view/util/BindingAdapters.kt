@@ -1,48 +1,30 @@
 package com.karamalazmeh.sportsmobi.view.util
 
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.widget.*
+import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.ViewModel
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.karamalazmeh.sportsmobi.R
 import com.karamalazmeh.sportsmobi.model.entity.SportEvent
+import com.karamalazmeh.sportsmobi.model.entity.Team
 import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.TheSportsDbApiStatus
 import com.karamalazmeh.sportsmobi.view.main.MainViewModel
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import timber.log.Timber
+import java.lang.Exception
 
-@BindingAdapter("statusIcon")
-fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Int) {
-    if (isHazardous == 1) {
-        imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
-    } else {
-        imageView.setImageResource(R.drawable.ic_status_normal)
-    }
-}
 
-@BindingAdapter("asteroidStatusImage")
-fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Int) {
-    if (isHazardous == 1) {
-        imageView.setImageResource(R.drawable.asteroid_hazardous)
-    } else {
-        imageView.setImageResource(R.drawable.asteroid_safe)
-    }
-}
 
-@BindingAdapter("astronomicalUnitText")
-fun bindTextViewToAstronomicalUnit(textView: TextView, venue: String) {
+@BindingAdapter("scoreText")
+fun bindTextViewToScore(textView: TextView, score: Int) {
     val context = textView.context
-    textView.text = String.format(context.getString(R.string.astronomical_unit_format), venue)
-}
-
-@BindingAdapter("kmUnitText")
-fun bindTextViewToKmUnit(textView: TextView, venue: String) {
-    val context = textView.context
-    textView.text = venue
-}
-
-@BindingAdapter("velocityText")
-fun bindTextViewToDisplayVelocity(textView: TextView, venue: String) {
-    val context = textView.context
-    textView.text = venue
+    textView.text = String.format(context.getString(R.string.score), score)
 }
 
 @BindingAdapter("listData")
@@ -53,16 +35,16 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<SportEvent>?) {
 
 
 
-@BindingAdapter ("nasaApiStatus")
-fun bindStatus(statusImageView: ProgressBar, status: TheSportsDbApiStatus?) {
+@BindingAdapter ("apiStatus")
+fun bindStatus(statusImageView: ImageView, status: TheSportsDbApiStatus?) {
     when (status) {
         TheSportsDbApiStatus.LOADING -> {
             statusImageView.visibility = View.VISIBLE
-//            statusImageView.setImageResource(R.drawable.loading_animation)
+            statusImageView.setImageResource(R.drawable.loading_animation)
         }
         TheSportsDbApiStatus.ERROR -> {
             statusImageView.visibility =   View.VISIBLE
-//            statusImageView.setImageResource(R.drawable.ic_connection_error)
+            statusImageView.setImageResource(R.drawable.ic_connection_error)
         }
         TheSportsDbApiStatus.DONE -> {
             statusImageView.visibility = View.GONE
@@ -71,12 +53,27 @@ fun bindStatus(statusImageView: ProgressBar, status: TheSportsDbApiStatus?) {
     }
 }
 
-/*
-@BindingAdapter("entries")
-fun bindSpinnerAdapter(spinner: Spinner, entries: List<String>) {
-    val adapter = ArrayAdapter(spinner.context, android.R.layout.simple_spinner_item, entries)
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-    spinner.adapter = adapter
 
+@BindingAdapter ("pictureUrl")
+fun bindPicture(imageView : ImageView, url: String?) {
 
-}*/
+    if (url != null && url != "") {
+        Picasso.get().load(url)
+            .into(imageView, object : Callback {
+                override fun onSuccess() {
+                    imageView.setBackgroundColor(Color.argb(100, 255, 255, 255))
+                    val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+                    val palette = Palette.from(bitmap).generate()
+                    var dominantColor =
+                        palette.getDominantColor(imageView.context.getColor(R.color.white))
+                    dominantColor = ColorUtils.setAlphaComponent(dominantColor, 50)
+                }
+
+                override fun onError(e: Exception?) {
+                    Timber.e(e)
+                }
+
+            })
+    }
+}
+

@@ -16,9 +16,9 @@ private val moshi = Moshi.Builder()
     .build()
 
 private val okHttpClient = OkHttpClient.Builder()
-    .connectTimeout(1, TimeUnit.MINUTES)
-    .readTimeout(30, TimeUnit.SECONDS)
-    .writeTimeout(15, TimeUnit.SECONDS)
+    .connectTimeout(30, TimeUnit.SECONDS)
+    .readTimeout(15, TimeUnit.SECONDS)
+    .writeTimeout(10, TimeUnit.SECONDS)
     .addInterceptor(LoggingInterceptor())
     .build()
 

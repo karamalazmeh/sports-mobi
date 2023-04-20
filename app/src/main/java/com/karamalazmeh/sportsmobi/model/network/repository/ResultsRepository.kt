@@ -5,7 +5,6 @@ import com.karamalazmeh.sportsmobi.model.entity.SportEvent
 import com.karamalazmeh.sportsmobi.model.database.SportsDatabase
 import com.karamalazmeh.sportsmobi.model.entity.League
 import com.karamalazmeh.sportsmobi.model.entity.Team
-import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.ResultsApiFilter
 import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.TheSportsDbApi
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -13,15 +12,11 @@ import timber.log.Timber
 
 class ResultsRepository (private val sportsDatabase: SportsDatabase)  {
 
-    private val _filter = MutableLiveData(ResultsApiFilter.SHOW_WEEK)
-
-
 //    val results: LiveData<List<SportEvent>> = Transformations.switchMap(_filter) { filter ->
 //        MutableLiveData(listOf<SportEvent>())
 //    }
 
     private var _teams = MutableLiveData(listOf<Team>())
-
 
     val teams : LiveData<List<Team>>
     get() = _teams
@@ -30,7 +25,7 @@ class ResultsRepository (private val sportsDatabase: SportsDatabase)  {
 
 
     val leagues : LiveData<List<League>>
-        get() = _leagues
+    get() = _leagues
 
     private var _results = MutableLiveData(listOf<SportEvent>())
 
@@ -38,14 +33,21 @@ class ResultsRepository (private val sportsDatabase: SportsDatabase)  {
     val results : LiveData<List<SportEvent>>
         get() = _results
 
-    suspend fun refreshLeaguesAndSports() {
+    suspend fun refreshLeagues() {
         withContext(Dispatchers.IO) {
-            _teams.postValue(TheSportsDbApi.retrofitService.getTeams().teams)
-            _leagues.postValue(TheSportsDbApi.retrofitService.getLeagues().leagues)
+            _leagues.postValue(
+                TheSportsDbApi.retrofitService.getLeagues().leagues.filter { it.sport == "Soccer"}
+            )
 
         }
     }
 
+
+    suspend fun refreshTeams(league: String  = "English Premier League") {
+        withContext(Dispatchers.IO) {
+            _teams.postValue(TheSportsDbApi.retrofitService.getTeams(league).teams)
+        }
+    }
 
     @OptIn(DelicateCoroutinesApi::class)
     suspend fun refreshResults(selectedTeam: Team) {
@@ -54,12 +56,6 @@ class ResultsRepository (private val sportsDatabase: SportsDatabase)  {
             _results.postValue(TheSportsDbApi.retrofitService.getEvents(selectedTeam.id).results)
             Timber.i(results.toString())
         }
-    }
-
-
-
-    fun filterResults(filter: ResultsApiFilter){
-        _filter.value = filter
     }
 
 }

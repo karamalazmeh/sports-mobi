@@ -18,12 +18,12 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.karamalazmeh.sportsmobi.view.detail.DetailFragment"
-        android:label="fragment_detail"
+        android:label="ScoreResult"
         tools:layout="@layout/fragment_detail">
 
         <argument
             android:name="selectedEvent"
-            app:argType="com.karamalazmeh.sportsmobi.model.entity.SportEvent"/>
+            app:argType="com.karamalazmeh.sportsmobi.model.entity.SportEvent" />
     </fragment>
 
 </navigation>

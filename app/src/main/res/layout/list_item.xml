@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--Asteroid single item Recycle View Item Holder-->
+<!--Sport Event Result single item Recycle View Item Holder-->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,40 +14,98 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/margin_m">
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/margin_m"
+        android:paddingTop="@dimen/margin_m"
+        android:paddingEnd="@dimen/margin_m"
+        android:paddingBottom="0dp">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@{result.name}"
-            tools:text="68347 (2001 KB67)" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
             android:text="@{result.dateEvent}"
-            tools:text="2020-02-08" />
-
-
-        <ImageView
-            android:id="@+id/face"
-            statusIcon="@{result.homeScore}"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="end"
-            android:contentDescription="@string/is_potentially_hazardous"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_status_normal" />
+            tools:text="2022-02-08" />
+
+        <TextView
+            android:id="@+id/homeTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{result.homeTeam}"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/date"
+            tools:text="Arsenal" />
+
+        <TextView
+            android:id="@+id/vs"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:text="@string/vs"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/homeTeam"
+            tools:text="vs" />
+
+        <TextView
+            android:id="@+id/awayTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{result.awayTeam}"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/date"
+            tools:text="Tottenham" />
+
+        <TextView
+            android:id="@+id/homeScore"
+            scoreText="@{result.homeScore}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/homeTeam"
+            app:layout_constraintTop_toBottomOf="@id/homeTeam"
+            tools:text="3" />
+
+        <TextView
+            android:id="@+id/awayScore"
+            scoreText="@{result.awayScore}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@id/awayTeam"
+            app:layout_constraintTop_toBottomOf="@id/awayTeam"
+            tools:text="2" />
+
+
+        <TextView
+            android:id="@+id/venue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{result.venue}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_s"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vs"
+            tools:text="London Stadium" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="@dimen/margin_m"
+            android:layout_marginEnd="48dp"
+            android:background="#80CCCCCC"
+            app:layout_constraintTop_toBottomOf="@+id/venue"
+            app:layout_goneMarginTop="@dimen/margin_m" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

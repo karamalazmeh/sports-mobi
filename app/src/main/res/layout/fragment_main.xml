@@ -4,7 +4,8 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
         <variable
@@ -14,52 +15,43 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_fragment_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <FrameLayout
             android:id="@+id/activity_main_image_of_the_day_layout"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="72dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Spinner
-                android:id="@+id/team_spinner"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|bottom"
-                android:layout_margin="@dimen/margin_s"
-                />
-<!--
-            <Spinner
-                android:id="@+id/leagues_spinner"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:layout_margin="@dimen/margin_s"
-                entries="@{viewModel.teamsEntries}"
-                />
-                -->
-
-            <Button
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:text="Add Teams"
-                android:onClick="@{() -> viewModel.refreshLeaguesAndSports()}"/>
-
-            <Button
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom|center"
-                android:text="Refresh"
-                android:onClick="@{() -> viewModel.refreshResults()}"/>
+            <ImageView
+                android:id="@+id/team_banner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                pictureUrl="@{viewModel.selectedTeam.teamBannerUrl}"/>
 
         </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/spinner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/activity_main_image_of_the_day_layout"
+            >
 
+            <Spinner
+                android:id="@+id/team_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_margin="@dimen/margin_s" />
+        </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/results_recycler"
@@ -71,20 +63,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_main_image_of_the_day_layout"
-            tools:listitem="@layout/list_item"/>
+            app:layout_constraintTop_toBottomOf="@+id/spinner_layout"
+            tools:listitem="@layout/list_item" />
 
-        <ProgressBar
-            android:id="@+id/status_loading_wheel"
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:nasaApiStatus="@{viewModel.status}"/>
+            apiStatus="@{viewModel.status}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

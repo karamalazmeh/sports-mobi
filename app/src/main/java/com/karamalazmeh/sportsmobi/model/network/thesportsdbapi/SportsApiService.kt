@@ -17,7 +17,7 @@ interface SportsApiService{
     @GET("search_all_teams.php")
     suspend fun getTeams(
         @Query("l")
-        league: String = "English Premier League",
+        league: String,
     ) : TeamResponse
 
     @GET("eventslast.php")

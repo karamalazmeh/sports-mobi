@@ -17,5 +17,6 @@ data class Team (
     @Json(name = "strSport") val sport: String,
     @Json(name = "strTeam") val name: String,
     @Json(name = "strStadium") val venue: String,
+    @Json(name = "strTeamBanner") val teamBannerUrl: String?,
 
     ) : Parcelable
