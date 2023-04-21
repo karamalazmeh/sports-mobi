@@ -3,12 +3,10 @@ package com.karamalazmeh.sportsmobi.view.main
 import android.app.Application
 import androidx.lifecycle.*
 import com.karamalazmeh.sportsmobi.model.entity.SportEvent
-import com.karamalazmeh.sportsmobi.model.database.SportsDatabase
 import com.karamalazmeh.sportsmobi.model.entity.Team
 import com.karamalazmeh.sportsmobi.model.network.repository.ResultsRepository
 import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.TheSportsDbApiStatus
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -20,38 +18,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val status: LiveData<TheSportsDbApiStatus>
         get() = _status
 
-    // The internal MutableLiveData String that stores  of the most recent request
-    private val _properties = MutableLiveData<List<SportEvent>>()
-
-    // The external immutable LiveData for the request properties string
-    val properties: LiveData<List<SportEvent>>
-        get() = _properties
-
+    // future feature to get dominant color from banner
     private val _dominantColor = MutableLiveData(0)
 
     val dominantColor : LiveData<Int>
     get() = _dominantColor
 
-    // Get database and refresh repository
+    // Refresh repository
+    private val resultsRepository = ResultsRepository()
 
-    private val database = SportsDatabase.getInstance(application)
-    init {
-        Timber.i("database created")
+    // immutable LiveData to get leagues entries
+    val leaguesEntries : LiveData<List<String>> = Transformations.map(resultsRepository.leagues) { leagues ->
+        leagues.map { league -> league.name }
     }
-    private val resultsRepository = ResultsRepository(database)
 
-    val resultsList : LiveData<List<SportEvent>>
-        get() = resultsRepository.results
-
-
+    // immutable LiveData to get teams entries
     val teamsEntries : LiveData<List<String>> = Transformations.map(resultsRepository.teams) { teams ->
         teams.map { team -> team.name }
     }
 
+    // sports event results to user
+    val resultsList : LiveData<List<SportEvent>>
+        get() = resultsRepository.results
 
-    val leaguesEntries : LiveData<List<String>> = Transformations.map(resultsRepository.leagues) { leagues ->
-        leagues.map { league -> league.name }
-    }
 
     // The internal MutableLiveData String that stores the status of the most recent request
     private val _selectedTeam = MutableLiveData<Team>()
@@ -60,19 +49,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val selectedTeam: LiveData<Team>
         get() = _selectedTeam
 
-    // The internal MutableLiveData String that stores the status of the most recent request
-    private val _selectedLeague = MutableLiveData<String>()
 
-    // The external immutable LiveData for the request status String
-    val selectedLeague: LiveData<String>
-        get() = _selectedLeague
-
+    // Update leagues and teams upon application start
     init{
         updateLeaguesAndTeams()
     }
 
+    // Data handling:
 
-
+    // refresh results for the selected team
     fun refreshResults() {
         viewModelScope.launch {
             try {
@@ -87,28 +72,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun updateDominantColor(color: Int) {
-        _dominantColor.value = color
-    }
-
-    private val _navigateToSelectedSportEvent = MutableLiveData<SportEvent>()
-    val navigateToSelectedEvent: LiveData<SportEvent>
-        get() = _navigateToSelectedSportEvent
-
-    fun displayEventResultsDetails(sportEvent: SportEvent) {
-        _navigateToSelectedSportEvent.value = sportEvent
-    }
-
-    fun displayPropertyDetailsComplete() {
-        _navigateToSelectedSportEvent.value = null
-    }
-
-
-
-    fun updateSelectedTeam(position: Int){
-        _selectedTeam.value = resultsRepository.teams.value?.get(position)
-    }
-
+    // Update Teams from repository
     fun updateTeams(league: String) {
         viewModelScope.launch {
             try {
@@ -123,6 +87,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    // Update leagues from repository
     fun updateLeaguesAndTeams() {
         viewModelScope.launch {
             try {
@@ -134,6 +99,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 _status.value = TheSportsDbApiStatus.ERROR
             }
         }
+    }
+
+    // Update selected team
+    fun updateSelectedTeam(position: Int){
+        _selectedTeam.value = resultsRepository.teams.value?.get(position)
+    }
+
+    // Navigation trigger
+    private val _navigateToSelectedSportEvent = MutableLiveData<SportEvent>()
+    val navigateToSelectedEvent: LiveData<SportEvent>
+        get() = _navigateToSelectedSportEvent
+
+    fun displayEventResultsDetails(sportEvent: SportEvent) {
+        _navigateToSelectedSportEvent.value = sportEvent
+    }
+    fun displayEventResultsDetailsComplete() {
+        _navigateToSelectedSportEvent.value = null
+    }
+
+
+    // future feature for dominant color
+    fun updateDominantColor(color: Int) {
+        _dominantColor.value = color
     }
 
 

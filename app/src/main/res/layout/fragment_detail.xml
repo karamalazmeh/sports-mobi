@@ -141,8 +141,6 @@
                     pictureUrl="@{sportEvent.eventPictureUrl}"/>
             </LinearLayout>
 
-
-
         </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

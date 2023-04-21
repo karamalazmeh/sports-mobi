@@ -1,32 +1,26 @@
 package com.karamalazmeh.sportsmobi.view.util
 
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.widget.*
-import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.ViewModel
-import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.karamalazmeh.sportsmobi.R
 import com.karamalazmeh.sportsmobi.model.entity.SportEvent
-import com.karamalazmeh.sportsmobi.model.entity.Team
 import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.TheSportsDbApiStatus
-import com.karamalazmeh.sportsmobi.view.main.MainViewModel
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import timber.log.Timber
-import java.lang.Exception
 
 
-
+// bind score to textView
 @BindingAdapter("scoreText")
 fun bindTextViewToScore(textView: TextView, score: Int) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.score), score)
 }
 
+// bind recycler view data
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<SportEvent>?) {
     val adapter = recyclerView.adapter as? ResultsListAdapter
@@ -34,7 +28,7 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<SportEvent>?) {
 }
 
 
-
+// bind status loading and error connection image
 @BindingAdapter ("apiStatus")
 fun bindStatus(statusImageView: ImageView, status: TheSportsDbApiStatus?) {
     when (status) {
@@ -53,7 +47,7 @@ fun bindStatus(statusImageView: ImageView, status: TheSportsDbApiStatus?) {
     }
 }
 
-
+// bind pictures from internet
 @BindingAdapter ("pictureUrl")
 fun bindPicture(imageView : ImageView, url: String?) {
 
@@ -62,17 +56,10 @@ fun bindPicture(imageView : ImageView, url: String?) {
             .into(imageView, object : Callback {
                 override fun onSuccess() {
                     imageView.setBackgroundColor(Color.argb(100, 255, 255, 255))
-                    val bitmap = (imageView.drawable as BitmapDrawable).bitmap
-                    val palette = Palette.from(bitmap).generate()
-                    var dominantColor =
-                        palette.getDominantColor(imageView.context.getColor(R.color.white))
-                    dominantColor = ColorUtils.setAlphaComponent(dominantColor, 50)
                 }
-
                 override fun onError(e: Exception?) {
                     Timber.e(e)
                 }
-
             })
     }
 }

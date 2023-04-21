@@ -1,6 +1,7 @@
-import com.karamalazmeh.sportsmobi.model.entity.SportEvent
 import com.karamalazmeh.sportsmobi.model.database.entity.SportEventDatabaseEntity
+import com.karamalazmeh.sportsmobi.model.entity.SportEvent
 
+// Future update for database local caching
 fun List<SportEvent>.asDatabaseModel(): Array<SportEventDatabaseEntity> {
     return this.map {
         SportEventDatabaseEntity(

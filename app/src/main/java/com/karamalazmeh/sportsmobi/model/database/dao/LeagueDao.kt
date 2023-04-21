@@ -7,6 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.karamalazmeh.sportsmobi.model.database.entity.LeagueDatabaseEntity
 
+// Future update to include db for local caching
+
 @Dao
 interface LeagueDao {
 
