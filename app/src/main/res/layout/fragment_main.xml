@@ -10,7 +10,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.karamalazmeh.sportsmobi.view.main.MainViewModel" />
+            type="com.karamalazmeh.sportsmobi.viewviewmodel.main.MainViewModel" />
 
     </data>
 

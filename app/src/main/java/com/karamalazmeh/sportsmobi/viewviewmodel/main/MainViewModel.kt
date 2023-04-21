@@ -1,4 +1,4 @@
-package com.karamalazmeh.sportsmobi.view.main
+package com.karamalazmeh.sportsmobi.viewviewmodel.main
 
 import android.app.Application
 import androidx.lifecycle.*

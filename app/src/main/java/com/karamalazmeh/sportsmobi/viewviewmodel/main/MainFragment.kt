@@ -1,4 +1,4 @@
-package com.karamalazmeh.sportsmobi.view.main
+package com.karamalazmeh.sportsmobi.viewviewmodel.main
 
 import android.os.Bundle
 import android.view.*
@@ -11,8 +11,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.karamalazmeh.sportsmobi.R
 import com.karamalazmeh.sportsmobi.databinding.FragmentMainBinding
 import com.karamalazmeh.sportsmobi.model.network.thesportsdbapi.TheSportsDbApiStatus
-import com.karamalazmeh.sportsmobi.view.util.ResultsListAdapter
-import com.karamalazmeh.sportsmobi.view.util.SpinnerListAdapter
+import com.karamalazmeh.sportsmobi.viewviewmodel.util.ResultsListAdapter
+import com.karamalazmeh.sportsmobi.viewviewmodel.util.SpinnerListAdapter
 
 class MainFragment : Fragment() {
 

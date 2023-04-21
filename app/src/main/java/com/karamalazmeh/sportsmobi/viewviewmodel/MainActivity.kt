@@ -1,4 +1,4 @@
-package com.karamalazmeh.sportsmobi.view
+package com.karamalazmeh.sportsmobi.viewviewmodel
 
 import android.os.Bundle
 import android.view.Menu

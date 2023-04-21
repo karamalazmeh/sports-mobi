@@ -1,4 +1,4 @@
-package com.karamalazmeh.sportsmobi.view.detail
+package com.karamalazmeh.sportsmobi.viewviewmodel.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater

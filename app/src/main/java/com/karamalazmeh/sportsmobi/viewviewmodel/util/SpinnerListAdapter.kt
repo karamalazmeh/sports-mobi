@@ -1,9 +1,6 @@
-package com.karamalazmeh.sportsmobi.view.util
+package com.karamalazmeh.sportsmobi.viewviewmodel.util
 
 import android.content.Context
-import android.view.View
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 
 class SpinnerListAdapter(context: Context) : ArrayAdapter<String>(
